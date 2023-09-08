@@ -119,7 +119,7 @@ components:
   # broker
   broker: true
   # functions
-  functions: true
+  functions: false
   # proxy
   proxy: true
   # toolset
@@ -332,7 +332,7 @@ zookeeper:
   resources:
     requests:
       memory: 256Mi
-      cpu: 0.1
+      cpu: 500m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -359,7 +359,7 @@ zookeeper:
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: standard
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
@@ -423,7 +423,7 @@ bookkeeper:
       # requests:
         # memory: 4Gi
         # cpu: 2
-  replicaCount: 4
+  replicaCount: 3
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -472,7 +472,7 @@ bookkeeper:
   resources:
     requests:
       memory: 512Mi
-      cpu: 0.2
+      cpu: 500m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -499,7 +499,7 @@ bookkeeper:
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: standard
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
@@ -527,7 +527,7 @@ bookkeeper:
       name: ledgers
       size: 50Gi
       local_storage: true
-      # storageClassName:
+      storageClassName: standard
       # storageClass:
         # ...
       # selector:
@@ -549,7 +549,7 @@ bookkeeper:
       name: common
       size: 60Gi
       local_storage: true
-      # storageClassName:
+      storageClassName: standard
       # storageClass: ## this is common too
         # ...
       # selector:
@@ -629,7 +629,7 @@ autorecovery:
   resources:
     requests:
       memory: 64Mi
-      cpu: 0.05
+      cpu: 500m
   ## Bookkeeper auto-recovery configmap
   ## templates/autorecovery-configmap.yaml
   ##
@@ -678,7 +678,7 @@ broker:
   # use a component name that matches your grafana configuration
   # so the metrics are correctly rendered in grafana dashboard
   component: broker
-  replicaCount: 3
+  replicaCount: 2
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -730,7 +730,7 @@ broker:
   resources:
     requests:
       memory: 512Mi
-      cpu: 0.2
+      cpu: 500m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -812,7 +812,7 @@ proxy:
   # use a component name that matches your grafana configuration
   # so the metrics are correctly rendered in grafana dashboard
   component: proxy
-  replicaCount: 3
+  replicaCount: 2
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -859,7 +859,7 @@ proxy:
   resources:
     requests:
       memory: 128Mi
-      cpu: 0.2
+      cpu: 500m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -907,7 +907,7 @@ proxy:
   ## templates/proxy-service.yaml
   ##
   ports:
-    http: 80
+    http: 8080
     https: 443
     pulsar: 6650
     pulsarssl: 6651
@@ -1033,7 +1033,7 @@ toolset:
 ## https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 ## For sample values, please see their documentation.
 kube-prometheus-stack:
-  enabled: true
+  enabled: false
   prometheus:
     enabled: true
   grafana:

@@ -125,7 +125,7 @@ components:
   # toolset
   toolset: true
   # pulsar manager
-  pulsar_manager: false
+  pulsar_manager: true
 
 ## which extra components to deploy (Deprecated)
 extra:
@@ -181,7 +181,7 @@ images:
     tag:
   pulsar_manager:
     repository: apachepulsar/pulsar-manager
-    tag: v0.3.0
+    tag: v0.4.0
     pullPolicy: IfNotPresent
     hasCommand: false
 
@@ -1058,14 +1058,17 @@ pulsar_manager:
   gracePeriod: 30
   resources:
     requests:
-      memory: 250Mi
-      cpu: 0.1
+      memory: 1Gi
+      cpu: 500m
   configData:
     REDIRECT_HOST: "http://127.0.0.1"
     REDIRECT_PORT: "9527"
     DRIVER_CLASS_NAME: org.postgresql.Driver
     URL: jdbc:postgresql://127.0.0.1:5432/pulsar_manager
     LOG_LEVEL: DEBUG
+    ENV_SPRING_CONFIGURATION_FILE: "/pulsar-manager/pulsar-manager/application.properties"
+    SPRING_CONFIGURATION_FILE: "/pulsar-manager/pulsar-manager/application.properties"
+    PULSAR_MANAGER_OPTS: " -Dlog4j2.formatMsgNoLookups=true"
     ## If you enabled authentication support
     ## JWT_TOKEN: <token>
     ## SECRET_KEY: data:base64,<secret key>

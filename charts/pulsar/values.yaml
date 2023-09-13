@@ -916,7 +916,7 @@ proxy:
       https: 8443
   service:
     annotations: {}
-    type: LoadBalancer
+    type: ClusterIP
   ## Proxy ingress
   ## templates/proxy-ingress.yaml
   ##

@@ -1058,7 +1058,7 @@ pulsar_manager:
   gracePeriod: 30
   resources:
     requests:
-      memory: 1Gi
+      memory: 2Gi
       cpu: 500m
   configData:
     REDIRECT_HOST: "http://127.0.0.1"

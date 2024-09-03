@@ -60,8 +60,8 @@ metadataPrefix: ""
 ## See https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection
 ## Prefixes are disabled by default
 
-tcpPrefix: ""  # For Istio this will be "tcp-"
-tlsPrefix: ""  # For Istio this will be "tls-"
+tcpPrefix: "" # For Istio this will be "tcp-"
+tlsPrefix: "" # For Istio this will be "tls-"
 
 ## Persistence
 ##
@@ -92,7 +92,6 @@ rbac:
   enabled: false
   psp: false
   limit_to_namespace: true
-
 
 ## AntiAffinity
 ##
@@ -128,7 +127,7 @@ components:
   # toolset
   toolset: true
   # pulsar manager
-  pulsar_manager: false
+  pulsar_manager: true
 
 # default image repository for pulsar images
 defaultPulsarImageRepository: apachepulsar/pulsar-all
@@ -226,7 +225,7 @@ tls:
   proxy:
     enabled: false
     cert_name: tls-proxy
-    createCert: true  # set to false if you want to use an existing certificate
+    createCert: true # set to false if you want to use an existing certificate
   # settings for generating certs for broker
   broker:
     enabled: false
@@ -331,7 +330,7 @@ zookeeper:
     follower: 2888
     leaderElection: 3888
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -364,7 +363,7 @@ zookeeper:
   resources:
     requests:
       memory: 256Mi
-      cpu: 0.1
+      cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -392,19 +391,19 @@ zookeeper:
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: standard
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
       ##
       # storageClass:
-        # type: pd-ssd
-        # fsType: xfs
-        # provisioner: kubernetes.io/gce-pd
+      # type: pd-ssd
+      # fsType: xfs
+      # provisioner: kubernetes.io/gce-pd
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-zookeeper
+      # matchLabels:
+      # app: pulsar-zookeeper
       selector: {}
     ## If you set useSeparateDiskForTxlog to true, this section configures the extra volume for the zookeeper transaction log.
     datalog:
@@ -419,13 +418,13 @@ zookeeper:
       ## If left undefined no storage class will be defined along with PVC
       ##
       # storageClass:
-        # type: pd-ssd
-        # fsType: xfs
-        # provisioner: kubernetes.io/gce-pd
+      # type: pd-ssd
+      # fsType: xfs
+      # provisioner: kubernetes.io/gce-pd
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-zookeeper
+      # matchLabels:
+      # app: pulsar-zookeeper
       selector: {}
   # External zookeeper server list in case of global-zk list to create zk cluster across zk deployed on different clusters/namespaces
   # Example value: "us-east1-pulsar-zookeeper-0.us-east1-pulsar-zookeeper.us-east1.svc.cluster.local:2888:3888,us-east1-pulsar-zookeeper-1.us-east1-pulsar-zookeeper.us-east1.svc.cluster.local:2888:3888,us-east1-pulsar-zookeeper-2.us-east1-pulsar-zookeeper.us-east1.svc.cluster.local:2888:3888,us-west1-pulsar-zookeeper-0.us-west1-pulsar-zookeeper.us-west1.svc.cluster.local:2888:3888,us-west1-pulsar-zookeeper-1.us-west1-pulsar-zookeeper.us-west1.svc.cluster.local:2888:3888,us-west1-pulsar-zookeeper-2.us-west1-pulsar-zookeeper.us-west1.svc.cluster.local:2888:3888"
@@ -465,7 +464,6 @@ zookeeper:
     usePolicy: true
     maxUnavailable: 1
 
-
 ## Pulsar: Bookkeeper cluster
 ## templates/bookkeeper-statefulset.yaml
 ##
@@ -484,8 +482,8 @@ bookkeeper:
     ##
     resources:
       # requests:
-        # memory: 4Gi
-        # cpu: 2
+      # memory: 4Gi
+      # cpu: 2
   replicaCount: 4
   updateStrategy:
     type: RollingUpdate
@@ -506,7 +504,7 @@ bookkeeper:
     bookie: 3181
     statestore: 4181
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -541,7 +539,7 @@ bookkeeper:
   resources:
     requests:
       memory: 512Mi
-      cpu: 0.2
+      cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -568,19 +566,19 @@ bookkeeper:
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: standard
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
       ##
       # storageClass:
-        # type: pd-ssd
-        # fsType: xfs
-        # provisioner: kubernetes.io/gce-pd
+      # type: pd-ssd
+      # fsType: xfs
+      # provisioner: kubernetes.io/gce-pd
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-bookkeeper-journal
+      # matchLabels:
+      # app: pulsar-bookkeeper-journal
       selector: {}
       useMultiVolumes: false
       multiVolumes:
@@ -596,11 +594,11 @@ bookkeeper:
       name: ledgers
       size: 50Gi
       local_storage: true
-      # storageClassName:
+      storageClassName: standard
       # storageClass:
-        # ...
+      # ...
       # selector:
-        # ...
+      # ...
       useMultiVolumes: false
       multiVolumes:
         - name: ledgers0
@@ -620,9 +618,9 @@ bookkeeper:
       local_storage: true
       # storageClassName:
       # storageClass: ## this is common too
-        # ...
+      # ...
       # selector:
-        # ...
+      # ...
   ## Bookkeeper service account
   ## templates/bookkeeper-service-account.yaml
   service_account:
@@ -662,19 +660,19 @@ bookkeeper:
     # configure the data compaction (bookie entry log compaction and gc) settings
     # https://bookkeeper.apache.org/docs/reference/config#garbage-collection-settings
     # https://bookkeeper.apache.org/docs/reference/config#entry-log-compaction-settings
-    minorCompactionThreshold: "0.2"     # default 0.2 (use default)
-    minorCompactionInterval: "360"      # default 3600 seconds (6 minutes vs default 1 hour)
-    majorCompactionThreshold: "0.8"     # default 0.5
-    majorCompactionInterval: "10800"    # default 86400 seconds (3 hours vs default 1 day)
-    gcWaitTime: "300000"                # default 900000 milli-seconds (5 minutes vs default 15 minutes)
-    isForceGCAllowWhenNoSpace: "true"   # default false
+    minorCompactionThreshold: "0.2" # default 0.2 (use default)
+    minorCompactionInterval: "360" # default 3600 seconds (6 minutes vs default 1 hour)
+    majorCompactionThreshold: "0.8" # default 0.5
+    majorCompactionInterval: "10800" # default 86400 seconds (3 hours vs default 1 day)
+    gcWaitTime: "300000" # default 900000 milli-seconds (5 minutes vs default 15 minutes)
+    isForceGCAllowWhenNoSpace: "true" # default false
     # disk utilization configuration
     # https://bookkeeper.apache.org/docs/reference/config#disk-utilization
     # Make sure that diskUsageLwmThreshold <= diskUsageWarnThreshold <= diskUsageThreshold
-    diskUsageLwmThreshold: "0.85"   # default 0.90
-    diskUsageWarnThreshold: "0.9"   # default 0.95
-    diskUsageThreshold: "0.95"      # default 0.95 (use default)
-    diskCheckInterval: "1800"       # default 10000
+    diskUsageLwmThreshold: "0.85" # default 0.90
+    diskUsageWarnThreshold: "0.9" # default 0.95
+    diskUsageThreshold: "0.95" # default 0.95 (use default)
+    diskCheckInterval: "1800" # default 10000
 
   ## Add a custom command to the start up process of the bookie pods (e.g. update-ca-certificates, jvm commands, etc)
   additionalCommand:
@@ -713,7 +711,7 @@ autorecovery:
   ports:
     http: 8000
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   affinity:
     anti_affinity: true
     anti_affinity_topology_key: kubernetes.io/hostname
@@ -729,7 +727,7 @@ autorecovery:
   resources:
     requests:
       memory: 64Mi
-      cpu: 0.05
+      cpu: 0.5
   ## Bookkeeper auto-recovery service account
   ## templates/autorecovery-service-account.yaml
   service_account:
@@ -775,19 +773,19 @@ pulsar_metadata:
 #      memory: 512Mi
 #      cpu: 1
 
-  ## optional you can specify tolerations and nodeSelectors for all init jobs (pulsar-init & bookkeeper-init)
-  # tolerations: []
-  #   - key: "someKey"
-  #     operator: "Equal"
-  #     value: "someValue"
-  #     effect: "NoSchedule"
-  # nodeSelector: {}
-  #   cloud.google.com/gke-nodepool: default-pool
+## optional you can specify tolerations and nodeSelectors for all init jobs (pulsar-init & bookkeeper-init)
+# tolerations: []
+#   - key: "someKey"
+#     operator: "Equal"
+#     value: "someValue"
+#     effect: "NoSchedule"
+# nodeSelector: {}
+#   cloud.google.com/gke-nodepool: default-pool
 
-  ## optional, you can provide your own zookeeper metadata store for other components
-  # to use this, you should explicit set components.zookeeper to false
-  #
-  # userProvidedZookeepers: "zk01.example.com:2181,zk02.example.com:2181"
+## optional, you can provide your own zookeeper metadata store for other components
+# to use this, you should explicit set components.zookeeper to false
+#
+# userProvidedZookeepers: "zk01.example.com:2181,zk02.example.com:2181"
 
 # Can be used to run extra commands in the initialization jobs e.g. to quit istio sidecars etc.
 extraInitCommand: ""
@@ -823,7 +821,7 @@ broker:
     pulsar: 6650
     pulsarssl: 6651
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -859,8 +857,8 @@ broker:
   waitBookkeeperTimeout: 120
   resources:
     requests:
-      memory: 512Mi
-      cpu: 0.2
+      memory: 2Gi
+      cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -875,11 +873,11 @@ broker:
   extraVolumes: []
   extraVolumeMounts: []
   extreEnvs: []
-#    - name: POD_NAME
-#      valueFrom:
-#        fieldRef:
-#          apiVersion: v1
-#          fieldPath: metadata.name
+  #    - name: POD_NAME
+  #      valueFrom:
+  #        fieldRef:
+  #          apiVersion: v1
+  #          fieldPath: metadata.name
   ## Broker configmap
   ## templates/broker-configmap.yaml
   ## Keys in broker.conf can be overridden here. Use PULSAR_PREFIX_ to add keys to broker.conf.
@@ -929,12 +927,14 @@ broker:
   ### Broker service account
   ## templates/broker-service-account.yaml
   service_account:
-    annotations: {}
+    annotations:
+      {}
       ## You may use the following annotation in order to use EKS IAM Roles for Service Accounts (IRSA)
       # eks.amazonaws.com/role-arn: arn:aws:iam::66666:role/my-iam-role-with-s3-access
   ## Tiered Storage
   ##
-  storageOffload: {}
+  storageOffload:
+    {}
     ## General
     ## =======
     # maxBlockSizeInBytes: "64000000"
@@ -1042,7 +1042,7 @@ proxy:
   # use a component name that matches your grafana configuration
   # so the metrics are correctly rendered in grafana dashboard
   component: proxy
-  replicaCount: 3
+  replicaCount: 1
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -1061,7 +1061,7 @@ proxy:
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
   restartPodsOnConfigMapChange: false
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -1098,7 +1098,7 @@ proxy:
   resources:
     requests:
       memory: 128Mi
-      cpu: 0.2
+      cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1113,11 +1113,11 @@ proxy:
   extraVolumes: []
   extraVolumeMounts: []
   extreEnvs: []
-#    - name: POD_IP
-#      valueFrom:
-#        fieldRef:
-#          apiVersion: v1
-#          fieldPath: status.podIP
+  #    - name: POD_IP
+  #      valueFrom:
+  #        fieldRef:
+  #          apiVersion: v1
+  #          fieldPath: status.podIP
   ## Proxy service account
   ## templates/proxy-service-account.yaml
   service_account:
@@ -1208,7 +1208,7 @@ toolset:
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
   restartPodsOnConfigMapChange: false
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   annotations: {}
   tolerations: []
   gracePeriod: 30
@@ -1252,7 +1252,7 @@ toolset:
 ## https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 ## For sample values, please see their documentation.
 kube-prometheus-stack:
-  enabled: true
+  enabled: false
   prometheus:
     enabled: true
   grafana:
@@ -1266,14 +1266,14 @@ kube-prometheus-stack:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
-        - name: 'pulsar'
-          orgId: 1
-          folder: 'Pulsar'
-          type: file
-          disableDeletion: true
-          editable: true
-          options:
-            path: /var/lib/grafana/dashboards/pulsar
+          - name: "pulsar"
+            orgId: 1
+            folder: "Pulsar"
+            type: file
+            disableDeletion: true
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/pulsar
     dashboards:
       pulsar:
         # Download the maintained dashboards from AL 2.0 licenced repo https://github.com/streamnative/apache-pulsar-grafana-dashboard
@@ -1348,8 +1348,8 @@ pulsar_manager:
   gracePeriod: 30
   resources:
     requests:
-      memory: 250Mi
-      cpu: 0.1
+      memory: 2Gi
+      cpu: 0.5
   configData:
     REDIRECT_HOST: "http://127.0.0.1"
     REDIRECT_PORT: "9527"
@@ -1368,11 +1368,11 @@ pulsar_manager:
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class,
+      storageClassName: standard
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-bookkeeper-journal
+      # matchLabels:
+      # app: pulsar-bookkeeper-journal
       selector: {}
   ## Pulsar manager service
   ## templates/pulsar-manager-service.yaml
@@ -1423,9 +1423,9 @@ pulsar_manager:
     ## UI_USERNAME: <UI username>
     existingSecret: ""
     ui_username: "pulsar"
-    ui_password: ""  # leave empty for random password
+    ui_password: "pulsar" # leave empty for random password
     db_username: "pulsar"
-    db_password: ""  # leave empty for random password
+    db_password: "pulsar" # leave empty for random password
 
 # These are jobs where job ttl configuration is used
 # pulsar-helm-chart/charts/pulsar/templates/pulsar-cluster-initialize.yaml
@@ -1441,5 +1441,5 @@ job:
 initContainer:
   resources:
     requests:
-      memory: 256Mi
-      cpu: 0.1
+      memory: 4Gi
+      cpu: 0.5

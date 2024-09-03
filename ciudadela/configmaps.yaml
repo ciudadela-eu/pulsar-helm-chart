@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  DB_HOST: ...
+  DB_NAME: accounting01
+  DB_PASSWORD: ...
+kind: ConfigMap
+metadata:
+  name: accounting-source
+  namespace: pulsar
+---
+apiVersion: v1
+data:
+  DB_HOST: ...
+  DB_NAME: ciudadela
+  DB_PASSWORD: ...
+kind: ConfigMap
+metadata:
+  name: strapi-source
+  namespace: pulsar

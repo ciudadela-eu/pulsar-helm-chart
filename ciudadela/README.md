@@ -24,7 +24,7 @@
        -H 'Cookie: XSRF-TOKEN=$CSRF_TOKEN;' \
        -H "Content-Type: application/json" \
        -X PUT http://localhost:7750/pulsar-manager/users/superuser \
-       -d '{"name": "pulsar", "password": "pulsar", "description": "main", "email": "pulsar@pulsar.com"}'
+       -d '{"name": "admin", "password": "pulsar", "description": "main", "email": "pulsar@pulsar.com"}'
      ```
    - Port forward pulsar-manager pod 9527 port, login and create the environment (if it does not already exists):
      - Environment name: ciudadela

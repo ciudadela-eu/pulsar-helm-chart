@@ -26,7 +26,7 @@
        -X PUT http://localhost:7750/pulsar-manager/users/superuser \
        -d '{"name": "pulsar", "password": "pulsar", "description": "main", "email": "pulsar@pulsar.com"}'
      ```
-   - Port forward pulsar-manager pod 9527 port, login and create the environment:
+   - Port forward pulsar-manager pod 9527 port, login and create the environment (if it does not already exists):
      - Environment name: ciudadela
      - Service URL: `http://pulsar-broker:8080`
      - Bookie URL: `http://pulsar-bookie:8000`

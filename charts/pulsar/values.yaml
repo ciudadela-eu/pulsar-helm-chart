@@ -363,7 +363,10 @@ zookeeper:
   resources:
     requests:
       memory: 256Mi
-      cpu: 0.5
+      cpu: 50m
+    limits:
+      memory: 256Mi
+      cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -539,7 +542,10 @@ bookkeeper:
   resources:
     requests:
       memory: 512Mi
-      cpu: 0.5
+      cpu: 50m
+    limits:
+      memory: 512Mi
+      cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -727,7 +733,10 @@ autorecovery:
   resources:
     requests:
       memory: 64Mi
-      cpu: 0.5
+      cpu: 50m
+    limits:
+      memory: 64Mi
+      cpu: 100m
   ## Bookkeeper auto-recovery service account
   ## templates/autorecovery-service-account.yaml
   service_account:
@@ -857,6 +866,9 @@ broker:
   waitBookkeeperTimeout: 120
   resources:
     requests:
+      memory: 2Gi
+      cpu: 0.2
+    limits:
       memory: 2Gi
       cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
@@ -1098,7 +1110,10 @@ proxy:
   resources:
     requests:
       memory: 128Mi
-      cpu: 0.5
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1215,7 +1230,10 @@ toolset:
   resources:
     requests:
       memory: 256Mi
-      cpu: 0.1
+      cpu: 50m
+    limits:
+      memory: 256Mi
+      cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1349,7 +1367,10 @@ pulsar_manager:
   resources:
     requests:
       memory: 2Gi
-      cpu: 0.5
+      cpu: 50m
+    limits:
+      memory: 2Gi
+      cpu: 100m
   configData:
     REDIRECT_HOST: "http://127.0.0.1"
     REDIRECT_PORT: "9527"

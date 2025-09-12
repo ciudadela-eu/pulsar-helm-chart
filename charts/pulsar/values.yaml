@@ -308,7 +308,7 @@ zookeeper:
   # so the metrics are correctly rendered in grafana dashboard
   component: zookeeper
   # the number of zookeeper servers to run. it should be an odd number larger than or equal to 3.
-  replicaCount: 3
+  replicaCount: 1
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -351,7 +351,7 @@ zookeeper:
       periodSeconds: 30
       timeoutSeconds: 30
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -487,7 +487,7 @@ bookkeeper:
       # requests:
       # memory: 4Gi
       # cpu: 2
-  replicaCount: 4
+  replicaCount: 2
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -528,7 +528,7 @@ bookkeeper:
       periodSeconds: 30
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -719,7 +719,7 @@ autorecovery:
   # nodeSelector:
   # cloud.google.com/gke-nodepool: default-pool
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -732,10 +732,10 @@ autorecovery:
   waitBookkeeperTimeout: 120
   resources:
     requests:
-      memory: 64Mi
+      memory: 128Mi
       cpu: 50m
     limits:
-      memory: 64Mi
+      memory: 256Mi
       cpu: 100m
   ## Bookkeeper auto-recovery service account
   ## templates/autorecovery-service-account.yaml
@@ -806,7 +806,7 @@ broker:
   # use a component name that matches your grafana configuration
   # so the metrics are correctly rendered in grafana dashboard
   component: broker
-  replicaCount: 3
+  replicaCount: 2
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -851,7 +851,7 @@ broker:
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -1094,7 +1094,7 @@ proxy:
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -1109,10 +1109,10 @@ proxy:
   waitBrokerTimeout: 120
   resources:
     requests:
-      memory: 128Mi
+      memory: 256Mi
       cpu: 50m
     limits:
-      memory: 128Mi
+      memory: 512Mi
       cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates

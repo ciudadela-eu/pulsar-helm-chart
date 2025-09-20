@@ -713,7 +713,7 @@ autorecovery:
   # nodeSelector:
   # cloud.google.com/gke-nodepool: default-pool
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -726,8 +726,11 @@ autorecovery:
   waitBookkeeperTimeout: 120
   resources:
     requests:
-      memory: 64Mi
-      cpu: 0.5
+      memory: 250Mi
+      cpu: 100m
+    limits:
+      memory: 500Mi
+      cpu: 200m
   ## Bookkeeper auto-recovery service account
   ## templates/autorecovery-service-account.yaml
   service_account:
@@ -804,7 +807,25 @@ broker:
     maxReplicas: 3
     metrics: ~
     behavior: ~
-  initContainers: []
+  # add our own replacement for wait-zookeeper-ready
+  initContainers:
+    - name: wait-zookeeper-ready
+      image: apachepulsar/pulsar-all:3.0.6 # same image tag as broker
+      imagePullPolicy: IfNotPresent
+      command: ["timeout", "600", "sh", "-c"]
+      args:
+        - |-
+          export PULSAR_MEM="-Xmx128M";
+          until timeout 15 bin/pulsar zookeeper-shell -server pulsar-zookeeper get /admin/clusters/pulsar; do
+            echo "pulsar cluster isn't initialized yet ... check in 3 seconds ..." && sleep 3;
+          done;
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
   # This is how prometheus discovers this component
   podMonitor:
     enabled: true
@@ -842,7 +863,7 @@ broker:
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -852,13 +873,17 @@ broker:
   tolerations: []
   gracePeriod: 30
   ## Timeout for waiting for zookeeper to become available before starting a broker
-  waitZookeeperTimeout: 600
+  # Disable the built-in wait-zookeeper-ready init container
+  waitZookeeperTimeout: 0
   ## Timeout for waiting for bookkeeper to become available before starting a broker
   waitBookkeeperTimeout: 120
   resources:
     requests:
-      memory: 2Gi
-      cpu: 0.5
+      memory: 1Gi
+      cpu: 100m
+    limits:
+      memory: 1.5Gi
+      cpu: 250m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1082,7 +1107,7 @@ proxy:
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -1097,8 +1122,11 @@ proxy:
   waitBrokerTimeout: 120
   resources:
     requests:
-      memory: 128Mi
-      cpu: 0.5
+      memory: 256Mi
+      cpu: 50m
+    limits:
+      memory: 512Mi
+      cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1203,7 +1231,7 @@ proxy:
 toolset:
   component: toolset
   useProxy: true
-  replicaCount: 1
+  replicaCount: 0
   initContainers: []
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
   restartPodsOnConfigMapChange: false
@@ -1348,8 +1376,11 @@ pulsar_manager:
   gracePeriod: 30
   resources:
     requests:
+      memory: 1Gi
+      cpu: 50m
+    limits:
       memory: 2Gi
-      cpu: 0.5
+      cpu: 100m
   configData:
     REDIRECT_HOST: "http://127.0.0.1"
     REDIRECT_PORT: "9527"

@@ -64,8 +64,8 @@ metadataPrefix: ""
 ## See https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection
 ## Prefixes are disabled by default
 
-tcpPrefix: ""  # For Istio this will be "tcp-"
-tlsPrefix: ""  # For Istio this will be "tls-"
+tcpPrefix: "" # For Istio this will be "tcp-"
+tlsPrefix: "" # For Istio this will be "tls-"
 
 ## Persistence
 ##
@@ -132,9 +132,9 @@ components:
   # proxy
   proxy: true
   # toolset
-  toolset: true
+  toolset: false
   # pulsar manager
-  pulsar_manager: false
+  pulsar_manager: true
 
 # default image repository for pulsar images
 defaultPulsarImageRepository: apachepulsar/pulsar-all
@@ -331,7 +331,7 @@ auth:
       usingSecretKey: false
     openid:
       enabled: false
-#     # https://pulsar.apache.org/docs/next/security-openid-connect/#enable-openid-connect-authentication-in-the-broker-and-proxy
+      #     # https://pulsar.apache.org/docs/next/security-openid-connect/#enable-openid-connect-authentication-in-the-broker-and-proxy
       openIDAllowedTokenIssuers: []
       openIDAllowedAudiences: []
       openIDTokenIssuerTrustCertsFilePath:
@@ -437,7 +437,7 @@ zookeeper:
     leaderElection: 3888
     # admin: 9990
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -474,7 +474,7 @@ zookeeper:
   resources:
     requests:
       memory: 256Mi
-      cpu: 0.1
+      cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -508,13 +508,13 @@ zookeeper:
       ## If left undefined no storage class will be defined along with PVC
       ##
       # storageClass:
-        # type: pd-ssd
-        # fsType: xfs
-        # provisioner: kubernetes.io/gce-pd
+      # type: pd-ssd
+      # fsType: xfs
+      # provisioner: kubernetes.io/gce-pd
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-zookeeper
+      # matchLabels:
+      # app: pulsar-zookeeper
       selector: {}
     ## If you set useSeparateDiskForTxlog to true, this section configures the extra volume for the zookeeper transaction log.
     datalog:
@@ -529,13 +529,13 @@ zookeeper:
       ## If left undefined no storage class will be defined along with PVC
       ##
       # storageClass:
-        # type: pd-ssd
-        # fsType: xfs
-        # provisioner: kubernetes.io/gce-pd
+      # type: pd-ssd
+      # fsType: xfs
+      # provisioner: kubernetes.io/gce-pd
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-zookeeper
+      # matchLabels:
+      # app: pulsar-zookeeper
       selector: {}
   # External zookeeper server list in case of global-zk list to create zk cluster across zk deployed on different clusters/namespaces
   # Example value: "us-east1-pulsar-zookeeper-0.us-east1-pulsar-zookeeper.us-east1.svc.cluster.local:2888:3888,us-east1-pulsar-zookeeper-1.us-east1-pulsar-zookeeper.us-east1.svc.cluster.local:2888:3888,us-east1-pulsar-zookeeper-2.us-east1-pulsar-zookeeper.us-east1.svc.cluster.local:2888:3888,us-west1-pulsar-zookeeper-0.us-west1-pulsar-zookeeper.us-west1.svc.cluster.local:2888:3888,us-west1-pulsar-zookeeper-1.us-west1-pulsar-zookeeper.us-west1.svc.cluster.local:2888:3888,us-west1-pulsar-zookeeper-2.us-west1-pulsar-zookeeper.us-west1.svc.cluster.local:2888:3888"
@@ -577,7 +577,7 @@ oxia:
   component: oxia
   initialShardCount: 3
   replicationFactor: 3
-## templates/coordinator-deployment.yaml
+  ## templates/coordinator-deployment.yaml
   coordinator:
     # annotations for the app (statefulset/deployment)
     appAnnotations: {}
@@ -602,13 +602,13 @@ oxia:
       annotations: {}
     tolerations: []
     # nodeSelector:
-      # cloud.google.com/gke-nodepool: default-pool
+    # cloud.google.com/gke-nodepool: default-pool
     extraContainers: []
     extraVolumes: []
     extraVolumeMounts: []
     # customConfigMapName: ""
     # entrypoint: []
-## templates/server-statefulset.yaml
+  ## templates/server-statefulset.yaml
   server:
     # annotations for the app (statefulset/deployment)
     appAnnotations: {}
@@ -658,7 +658,7 @@ oxia:
     topologySpreadConstraints: []
     tolerations: []
     # nodeSelector:
-      # cloud.google.com/gke-nodepool: default-pool
+    # cloud.google.com/gke-nodepool: default-pool
   pprofEnabled: false
 ## Pulsar: Bookkeeper cluster
 ## templates/bookkeeper-statefulset.yaml
@@ -680,8 +680,8 @@ bookkeeper:
     ##
     resources:
       # requests:
-        # memory: 4Gi
-        # cpu: 2
+      # memory: 4Gi
+      # cpu: 2
   replicaCount: 4
   updateStrategy:
     type: RollingUpdate
@@ -702,7 +702,7 @@ bookkeeper:
     bookie: 3181
     statestore: 4181
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -741,7 +741,7 @@ bookkeeper:
   resources:
     requests:
       memory: 512Mi
-      cpu: 0.2
+      cpu: 0.5
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -774,13 +774,13 @@ bookkeeper:
       ## If left undefined no storage class will be defined along with PVC
       ##
       # storageClass:
-        # type: pd-ssd
-        # fsType: xfs
-        # provisioner: kubernetes.io/gce-pd
+      # type: pd-ssd
+      # fsType: xfs
+      # provisioner: kubernetes.io/gce-pd
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-bookkeeper-journal
+      # matchLabels:
+      # app: pulsar-bookkeeper-journal
       selector: {}
       useMultiVolumes: false
       multiVolumes:
@@ -798,9 +798,9 @@ bookkeeper:
       local_storage: true
       # storageClassName:
       # storageClass:
-        # ...
+      # ...
       # selector:
-        # ...
+      # ...
       useMultiVolumes: false
       multiVolumes:
         - name: ledgers0
@@ -820,9 +820,9 @@ bookkeeper:
       local_storage: true
       # storageClassName:
       # storageClass: ## this is common too
-        # ...
+      # ...
       # selector:
-        # ...
+      # ...
   ## Bookkeeper service account
   ## templates/bookkeeper-service-account.yaml
   service_account:
@@ -857,12 +857,12 @@ bookkeeper:
     # configure the data compaction (bookie entry log compaction and gc) settings
     # https://bookkeeper.apache.org/docs/reference/config#garbage-collection-settings
     # https://bookkeeper.apache.org/docs/reference/config#entry-log-compaction-settings
-    minorCompactionThreshold: "0.2"     # default 0.2 (use default)
-    minorCompactionInterval: "360"      # default 3600 seconds (6 minutes vs default 1 hour)
-    majorCompactionThreshold: "0.8"     # default 0.5
-    majorCompactionInterval: "10800"    # default 86400 seconds (3 hours vs default 1 day)
-    gcWaitTime: "300000"                # default 900000 milli-seconds (5 minutes vs default 15 minutes)
-    isForceGCAllowWhenNoSpace: "true"   # default false
+    minorCompactionThreshold: "0.2" # default 0.2 (use default)
+    minorCompactionInterval: "360" # default 3600 seconds (6 minutes vs default 1 hour)
+    majorCompactionThreshold: "0.8" # default 0.5
+    majorCompactionInterval: "10800" # default 86400 seconds (3 hours vs default 1 day)
+    gcWaitTime: "300000" # default 900000 milli-seconds (5 minutes vs default 15 minutes)
+    isForceGCAllowWhenNoSpace: "true" # default false
     # run entry location index RocksDB compaction with a random interval up to the configured value in seconds
     # see https://github.com/apache/bookkeeper/pull/4555
     # besides keeping the size of the entry location index RocksDB under control,
@@ -871,10 +871,10 @@ bookkeeper:
     # disk utilization configuration
     # https://bookkeeper.apache.org/docs/reference/config#disk-utilization
     # Make sure that diskUsageLwmThreshold <= diskUsageWarnThreshold <= diskUsageThreshold
-    diskUsageLwmThreshold: "0.85"   # default 0.90
-    diskUsageWarnThreshold: "0.9"   # default 0.95
-    diskUsageThreshold: "0.95"      # default 0.95 (use default)
-    diskCheckInterval: "1800"       # default 10000
+    diskUsageLwmThreshold: "0.85" # default 0.90
+    diskUsageWarnThreshold: "0.9" # default 0.95
+    diskUsageThreshold: "0.95" # default 0.95 (use default)
+    diskCheckInterval: "1800" # default 10000
 
   ## Add a custom command to the start up process of the bookie pods (e.g. update-ca-certificates, jvm commands, etc)
   additionalCommand:
@@ -913,9 +913,9 @@ autorecovery:
   ports:
     http: 8000
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -932,8 +932,11 @@ autorecovery:
   waitBookkeeperTimeout: 120
   resources:
     requests:
-      memory: 64Mi
-      cpu: 0.05
+      memory: 250Mi
+      cpu: 100m
+    limits:
+      memory: 500Mi
+      cpu: 200m
   ## Bookkeeper auto-recovery service
   ## templates/autorecovery-service.yaml
   service:
@@ -1036,19 +1039,19 @@ pulsar_metadata:
 #      memory: 512Mi
 #      cpu: 1
 
-  ## optional you can specify tolerations and nodeSelectors for all init jobs (pulsar-init & bookkeeper-init)
-  # tolerations: []
-  #   - key: "someKey"
-  #     operator: "Equal"
-  #     value: "someValue"
-  #     effect: "NoSchedule"
-  # nodeSelector: {}
-  #   cloud.google.com/gke-nodepool: default-pool
+## optional you can specify tolerations and nodeSelectors for all init jobs (pulsar-init & bookkeeper-init)
+# tolerations: []
+#   - key: "someKey"
+#     operator: "Equal"
+#     value: "someValue"
+#     effect: "NoSchedule"
+# nodeSelector: {}
+#   cloud.google.com/gke-nodepool: default-pool
 
-  ## optional, you can provide your own zookeeper metadata store for other components
-  # to use this, you should explicit set components.zookeeper to false
-  #
-  # userProvidedZookeepers: "zk01.example.com:2181,zk02.example.com:2181"
+## optional, you can provide your own zookeeper metadata store for other components
+# to use this, you should explicit set components.zookeeper to false
+#
+# userProvidedZookeepers: "zk01.example.com:2181,zk02.example.com:2181"
 
 # Can be used to run extra commands in the initialization jobs e.g. to quit istio sidecars etc.
 extraInitCommand: ""
@@ -1096,7 +1099,7 @@ broker:
     pulsar: 6650
     pulsarssl: 6651
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -1117,7 +1120,7 @@ broker:
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -1138,8 +1141,11 @@ broker:
   waitBookkeeperTimeout: 120
   resources:
     requests:
-      memory: 512Mi
-      cpu: 0.2
+      memory: 1Gi
+      cpu: 100m
+    limits:
+      memory: 1.5Gi
+      cpu: 250m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1201,12 +1207,14 @@ broker:
   ### Broker service account
   ## templates/broker-service-account.yaml
   service_account:
-    annotations: {}
+    annotations:
+      {}
       ## You may use the following annotation in order to use EKS IAM Roles for Service Accounts (IRSA)
       # eks.amazonaws.com/role-arn: arn:aws:iam::66666:role/my-iam-role-with-s3-access
   ## Tiered Storage
   ##
-  storageOffload: {}
+  storageOffload:
+    {}
     ## General
     ## =======
     # maxBlockSizeInBytes: "64000000"
@@ -1343,7 +1351,7 @@ proxy:
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
   restartPodsOnConfigMapChange: false
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   probe:
     liveness:
       enabled: true
@@ -1364,7 +1372,7 @@ proxy:
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
-    anti_affinity: true
+    anti_affinity: false
     anti_affinity_topology_key: kubernetes.io/hostname
     # Set the anti affinity type. Valid values:
     # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
@@ -1385,8 +1393,11 @@ proxy:
   waitBrokerTimeout: 120
   resources:
     requests:
-      memory: 128Mi
-      cpu: 0.2
+      memory: 256Mi
+      cpu: 50m
+    limits:
+      memory: 512Mi
+      cpu: 100m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:
@@ -1401,11 +1412,11 @@ proxy:
   extraVolumes: []
   extraVolumeMounts: []
   extraEnvs: []
-#    - name: POD_IP
-#      valueFrom:
-#        fieldRef:
-#          apiVersion: v1
-#          fieldPath: status.podIP
+  #    - name: POD_IP
+  #      valueFrom:
+  #        fieldRef:
+  #          apiVersion: v1
+  #          fieldPath: status.podIP
   ## Proxy service account
   ## templates/proxy-service-account.yaml
   service_account:
@@ -1460,27 +1471,26 @@ proxy:
     # Previous chart versions defaulted to LoadBalancer which could create security risks.
     type: ClusterIP
     # When using a LoadBalancer service type, add internal load balancer annotations to the service to create an internal load balancer.
-    annotations: {
-      ## Set internal load balancer annotations when using a LoadBalancer service type because of security reasons.
-      ## You must also ensure that the configuration is correct so that the load balancer is not exposed to the public internet.
-      ## This information below is for reference only and may not be applicable to your cloud provider.
-      ## Please refer to the cloud provider's documentation for the correct annotations.
-      ## Kubernetes documentation about internal load balancers
-      ## https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
-      ## AWS / EKS
-      ## Ensure that you have recent AWS Load Balancer Controller installed.
-      ## Docs: https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/
-      # service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
-      ## Azure / AKS
-      ## Docs: https://learn.microsoft.com/en-us/azure/aks/internal-lb
-      # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-      ## GCP / GKE
-      ## Docs: https://cloud.google.com/kubernetes-engine/docs/concepts/service-load-balancer-parameters
-      # networking.gke.io/load-balancer-type: "Internal"
-      ## Allow global access to the internal load balancer when needed.
-      # networking.gke.io/internal-load-balancer-allow-global-access: "true"
-    }
+    annotations: {}
 
+    ## Set internal load balancer annotations when using a LoadBalancer service type because of security reasons.
+    ## You must also ensure that the configuration is correct so that the load balancer is not exposed to the public internet.
+    ## This information below is for reference only and may not be applicable to your cloud provider.
+    ## Please refer to the cloud provider's documentation for the correct annotations.
+    ## Kubernetes documentation about internal load balancers
+    ## https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+    ## AWS / EKS
+    ## Ensure that you have recent AWS Load Balancer Controller installed.
+    ## Docs: https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/
+    # service.beta.kubernetes.io/aws-load-balancer-scheme: "internal"
+    ## Azure / AKS
+    ## Docs: https://learn.microsoft.com/en-us/azure/aks/internal-lb
+    # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    ## GCP / GKE
+    ## Docs: https://cloud.google.com/kubernetes-engine/docs/concepts/service-load-balancer-parameters
+    # networking.gke.io/load-balancer-type: "Internal"
+    ## Allow global access to the internal load balancer when needed.
+    # networking.gke.io/internal-load-balancer-allow-global-access: "true"
     ## Optional. Leave it blank to get next available random IP.
     loadBalancerIP: ""
     ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it.
@@ -1532,7 +1542,7 @@ toolset:
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
   restartPodsOnConfigMapChange: false
   # nodeSelector:
-    # cloud.google.com/gke-nodepool: default-pool
+  # cloud.google.com/gke-nodepool: default-pool
   # set topologySpreadConstraint to deploy pods across different zones
   topologySpreadConstraints: []
   # annotations for the app (statefulset/deployment)
@@ -1581,7 +1591,7 @@ toolset:
 ## For sample values, please see: https://github.com/VictoriaMetrics/helm-charts/blob/master/charts/victoria-metrics-k8s-stack/values.yaml
 victoria-metrics-k8s-stack:
   ## Enable the victoria-metrics-k8s-stack chart
-  enabled: true
+  enabled: false
 
   ## VictoriaMetrics Operator dependency chart configuration
   victoria-metrics-operator:
@@ -1658,33 +1668,33 @@ victoria-metrics-k8s-stack:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
-        - name: 'default'
-          orgId: 1
-          folder: ''
-          type: file
-          disableDeletion: true
-          editable: true
-          allowUiUpdates: true
-          options:
-            path: /var/lib/grafana/dashboards/default
-        - name: oxia
-          orgId: 1
-          folder: Oxia
-          type: file
-          disableDeletion: true
-          editable: true
-          allowUiUpdates: true
-          options:
-            path: /var/lib/grafana/dashboards/oxia
-        - name: pulsar
-          orgId: 1
-          folder: Pulsar
-          type: file
-          disableDeletion: true
-          editable: true
-          allowUiUpdates: true
-          options:
-            path: /var/lib/grafana/dashboards/pulsar
+          - name: "default"
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: true
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+          - name: oxia
+            orgId: 1
+            folder: Oxia
+            type: file
+            disableDeletion: true
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/oxia
+          - name: pulsar
+            orgId: 1
+            folder: Pulsar
+            type: file
+            disableDeletion: true
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/pulsar
     dashboards:
       default:
         victoriametrics:
@@ -1776,7 +1786,7 @@ victoria-metrics-k8s-stack:
             scheme: https
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              insecureSkipVerify: true  # For development environments like minikube
+              insecureSkipVerify: true # For development environments like minikube
 
   coreDns:
     enabled: true
@@ -1805,7 +1815,7 @@ victoria-metrics-k8s-stack:
             scheme: https
             tlsConfig:
               caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              insecureSkipVerify: true  # For development environments like minikube
+              insecureSkipVerify: true # For development environments like minikube
 
 ## Components Stack: pulsar_manager
 ## templates/pulsar-manager.yaml
@@ -1829,8 +1839,11 @@ pulsar_manager:
   gracePeriod: 30
   resources:
     requests:
-      memory: 250Mi
-      cpu: 0.1
+      memory: 1Gi
+      cpu: 50m
+    limits:
+      memory: 2Gi
+      cpu: 100m
   configData:
     REDIRECT_HOST: "http://127.0.0.1"
     REDIRECT_PORT: "9527"
@@ -1852,8 +1865,8 @@ pulsar_manager:
       # storageClassName: existent-storage-class,
       ## If you want to bind static persistent volumes via selectors, e.g.:
       # selector:
-        # matchLabels:
-        # app: pulsar-bookkeeper-journal
+      # matchLabels:
+      # app: pulsar-bookkeeper-journal
       selector: {}
   ## Pulsar manager service
   ## templates/pulsar-manager-service.yaml
@@ -1907,9 +1920,9 @@ pulsar_manager:
     ## UI_USERNAME: <UI username>
     existingSecret: ""
     ui_username: "pulsar"
-    ui_password: ""  # leave empty for random password
+    ui_password: "" # leave empty for random password
     db_username: "pulsar"
-    db_password: ""  # leave empty for random password
+    db_password: "" # leave empty for random password
 
 # These are jobs where job ttl configuration is used
 # pulsar-helm-chart/charts/pulsar/templates/pulsar-cluster-initialize.yaml

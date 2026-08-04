@@ -909,7 +909,7 @@ autorecovery:
       # - action: labeldrop
       #   regex: cluster
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
-  restartPodsOnConfigMapChange: false
+  restartPodsOnConfigMapChange: true
   ports:
     http: 8000
   # nodeSelector:
@@ -952,6 +952,7 @@ autorecovery:
     BOOKIE_MEM: >
       -Xms64m -Xmx64m
     PULSAR_PREFIX_useV2WireProtocol: "true"
+    lostBookieRecoveryDelay: "60"
   extraVolumes: []
   initContainersExtraVolumeMounts: []
   extraVolumeMounts: []
@@ -1114,9 +1115,9 @@ broker:
       periodSeconds: 10
       timeoutSeconds: 5
     startup:
-      enabled: false
-      failureThreshold: 30
-      initialDelaySeconds: 60
+      enabled: true
+      failureThreshold: 60
+      initialDelaySeconds: 10
       periodSeconds: 10
       timeoutSeconds: 5
   affinity:
@@ -1355,13 +1356,13 @@ proxy:
   probe:
     liveness:
       enabled: true
-      failureThreshold: 10
+      failureThreshold: 20
       initialDelaySeconds: 30
       periodSeconds: 10
       timeoutSeconds: 5
     readiness:
       enabled: true
-      failureThreshold: 10
+      failureThreshold: 20
       initialDelaySeconds: 30
       periodSeconds: 10
       timeoutSeconds: 5
@@ -1394,10 +1395,10 @@ proxy:
   resources:
     requests:
       memory: 256Mi
-      cpu: 50m
+      cpu: 200m
     limits:
       memory: 512Mi
-      cpu: 100m
+      cpu: 500m
   # extraVolumes and extraVolumeMounts allows you to mount other volumes
   # Example Use Case: mount ssl certificates
   # extraVolumes:

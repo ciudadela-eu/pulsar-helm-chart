@@ -468,7 +468,11 @@ zookeeper:
   topologySpreadConstraints: []
   # annotations for the app (statefulset/deployment)
   appAnnotations: {}
-  annotations: {}
+  # Keep GKE Autopilot from evicting these pods to consolidate nodes. Evicting a
+  # ZooKeeper and a bookie together can leave a broker BookKeeper client with a
+  # stale bookie list (see the 2026-10-28 post-mortem in the ciudadela repo).
+  annotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
   tolerations: []
   gracePeriod: 30
   resources:
@@ -733,7 +737,11 @@ bookkeeper:
   topologySpreadConstraints: []
   # annotations for the app (statefulset/deployment)
   appAnnotations: {}
-  annotations: {}
+  # Keep GKE Autopilot from evicting these pods to consolidate nodes. Evicting a
+  # ZooKeeper and a bookie together can leave a broker BookKeeper client with a
+  # stale bookie list (see the 2026-10-28 post-mortem in the ciudadela repo).
+  annotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
   tolerations: []
   gracePeriod: 30
   ## Timeout for waiting for bookkeeper cluster metadata to be initialized before starting a bookie
